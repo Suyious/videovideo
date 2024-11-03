@@ -8,7 +8,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from './components/ui/ca
 import { Input } from './components/ui/input'
 import { Tabs, TabsContent } from './components/ui/tabs'
 import usePeer from './hooks/usePeer'
-import { Check, ClipboardCopy, X as CloseIcon } from 'lucide-react'
+import { Check, ClipboardCopy, X as CloseIcon, MaximizeIcon, MinimizeIcon } from 'lucide-react'
 import { cn } from './lib/utils'
 
 
@@ -28,6 +28,7 @@ function App() {
   }
 
   const [copied, setCopied] = useState<boolean>(false);
+  const [contain, setContain] = useState<boolean>(false);
 
   function handleCopy(inputValue: string) {
     if (inputValue) {
@@ -113,7 +114,8 @@ function App() {
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <div className="w-full h-screen">
 
-        <video ref={remoteVideoFeed} id='local-video' className='w-full h-full object-cover' muted loop autoPlay playsInline
+        <video ref={remoteVideoFeed} id='local-video' className='w-full h-full' muted loop autoPlay playsInline
+          style={{ objectFit: contain ? "contain": "cover" }}
           src='https://videos.pexels.com/video-files/20594036/20594036-hd_1920_1080_25fps.mp4'
         ></video>
 
@@ -132,6 +134,12 @@ function App() {
 
         <div className="absolute top-3 right-3">
           <ModeToggle></ModeToggle> 
+        </div>
+
+        <div className="absolute top-3 right-14">
+          <Button variant="outline" size="icon" onClick={() => setContain(!contain)}>
+            { contain ? <MinimizeIcon/> : <MaximizeIcon/>}
+          </Button>
         </div>
       </div>
     </ThemeProvider>
